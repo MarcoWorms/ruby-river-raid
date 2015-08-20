@@ -24,6 +24,18 @@ class Plane
 		if Gosu::button_down?(Gosu::KbRight)
 			@x += 4
 		end
+
+        player_screen_limit_right = 800 - @width
+        player_is_offscreen_right = (@x > player_screen_limit_right)
+
+        player_screen_limit_left = 0
+        player_is_offscreen_left = (@x < player_screen_limit_left)
+
+        if player_is_offscreen_right
+            @x = player_screen_limit_right
+        elsif player_is_offscreen_left
+            @x = player_screen_limit_left
+        end
 	end
 
     def center_x
