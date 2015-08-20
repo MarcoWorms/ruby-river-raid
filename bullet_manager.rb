@@ -7,14 +7,21 @@ class Bullet_manager
 
 	def update
 		for bullet in @bullets
-			bullet.y += 4
+			bullet["y"] -= 4
+            if bullet["y"] <= -12
+                @bullets -= [bullet]
+            end
 		end
 	end
 
 	def draw
 		for bullet in @bullets
-			
+			@bullet_image.draw(bullet["x"], bullet["y"], 2)
 		end
 	end
+
+    def spawn(x)
+        @bullets.push({"x" => x - 3, "y" => 500})
+    end
 
 end

@@ -1,14 +1,11 @@
 class Plane
 
-	attr_reader :x
-
 	def initialize
 		@image = Gosu::Image.new('plane.png')
 		@height = @image.height
 		@width = @image.width
 		@x = 800/2 - @image.width/2
 		@y = 500
-		
 	end
 
 	def update
@@ -28,5 +25,10 @@ class Plane
 			@x += 4
 		end
 	end
+
+    def center_x
+        center_x = @x + @width/2
+        return center_x
+    end
 
 end

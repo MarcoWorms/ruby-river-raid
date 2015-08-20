@@ -19,7 +19,7 @@ class Game_window < Gosu::Window
 	def button_down(id)
 		case id
 		when Gosu::KbSpace
-			@bullet_manager.spawn(@plane.x)
+			@bullet_manager.spawn(@plane.center_x)
 		end
 	end
 
