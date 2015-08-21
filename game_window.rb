@@ -20,10 +20,18 @@ class Game_window < Gosu::Window
 	end
 
 	def button_down(id)
-		case id
-		when Gosu::KbSpace
-			@bullet_manager.spawn(@plane.center_x)
-		end
+		resolve_input(id)
 	end
+
+    def needs_cursor?
+        return true
+    end
+
+    def resolve_input(id)
+        case id
+        when Gosu::KbSpace
+            @bullet_manager.spawn(@plane.center_x)
+        end
+    end
 
 end

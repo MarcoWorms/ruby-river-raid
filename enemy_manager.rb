@@ -8,11 +8,11 @@ class Enemy_manager
 
     def update
         if @enemy_spawn_timer.tick
-            spawn_enemy(300)
+            spawn_enemy(rand(700) + 50)
         end
 
         for enemy in @enemies
-            enemy.move
+            enemy.update
         end
     end
 
@@ -41,12 +41,12 @@ class Enemy
         @y = 0 - @height
     end
 
-    def draw
-        @image.draw(@x, @y, 3)
+    def update
+        @y += 3
     end
 
-    def move
-        @y += 3
+    def draw
+        @image.draw(@x, @y, 3)
     end
 
 end

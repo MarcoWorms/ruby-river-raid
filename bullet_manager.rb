@@ -7,7 +7,7 @@ class Bullet_manager
 
 	def update
 		for bullet in @bullets
-			bullet.y -= 4
+			bullet.update
             check_out_of_bounds_and_kill(bullet)
 		end
 	end
@@ -41,6 +41,10 @@ class Bullet
         @y = 500
         @x = spawn_x
         @image = image
+    end
+
+    def update
+        @y -= 3
     end
 
     def draw
