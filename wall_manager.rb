@@ -1,68 +1,104 @@
 class Wall_manager
 
+    attr_reader :walls
+
     def initialize
-
-
         @walls = []
-        @walls.push(Wall.new(800,600,0))
-        @walls.push(Wall.new(800,600))
-        @wall_spawn_timer = Timer.new(5)
+        bottom_variation = rand(401) - 200
+        top_variation = rand(401) - 200
+        @walls.push(Wall.new(-300, 600, top_variation, bottom_variation))
+        @wall_spawn_timer = Timer.new(2)
     end
 
     def update
         if @wall_spawn_timer.tick
-            x_variation = (rand(401) - 200).to_i
-            @walls.push(Wall.new(800,600 + x_variation))
+            top_variation = rand(401) - 200
+            @walls.push(Wall.new(-300, @walls.last.top_y, top_variation, @walls.last.top_variation))
         end
 
         for wall in @walls
             wall.update
+            check_out_of_bounds_and_kill(wall)
         end
 
     end
 
     def draw
-        times = @walls.length-2
-        for index in 0..times
-            wall = @walls[index]
-            wall_link = @walls[index + 1]
-            wall.draw(wall_link)
+        for wall in walls
+            wall.draw
         end
+    end
+
+    def check_out_of_bounds_and_kill(wall)
+        wall_offscreen_limit = 600
+        wall_offscreen = (wall.top_y > wall_offscreen_limit)
+        if wall_offscreen
+            remove_wall(wall)
+        end
+    end
+
+    def remove_wall(wall)
+        @walls -= [wall]
     end
 
 end
 
 class Wall
 
-    attr_reader :y, :left_x, :right_x
+    attr_reader :top_y, :bottom_y, :top_variation, :left_block, :right_block
 
-    def initialize(screen_size, base_size, y = -700)
+    def initialize(top_y, bottom_y, top_variation, bottom_variation)
+        screen_size = 800
+        @top_variation = top_variation
+        @top_y = top_y
+        @bottom_y = bottom_y
+        @top_border_size = (screen_size - (600 + top_variation))/2
+        @bottom_border_size = (screen_size - (600 + bottom_variation))/2
 
-        inutilized_size = screen_size - base_size
-        border_radius = inutilized_size/2
-        @left_x = 0 + border_radius
-        @right_x = screen_size - border_radius
-
-        @y = y
+        update_blocks
     end
 
     def update
-        @y += 2
+        @top_y += 2
+        @bottom_y += 2
+        update_blocks
     end
 
-    def draw(link)
+    def draw()
+        draw_block(@left_block)
+        draw_block(@right_block)
+    end
+
+    def update_blocks
+
+        @left_block = {
+            "A" => [0, @top_y],
+            "B" => [@top_border_size, @top_y],
+            "C" => [0, @bottom_y],
+            "D" => [@bottom_border_size, @bottom_y]
+        }
+
+        @right_block = {
+            "A" => [800 - @top_border_size, @top_y],
+            "B" => [800, @top_y],
+            "C" => [800 - @bottom_border_size, @bottom_y],
+            "D" => [800, @bottom_y]
+        }
+    end
+
+    def draw_block(block)
         Gosu::draw_quad(
-            0, link.y,       Gosu::Color.argb(0xff_ffffff),
-            link.left_x, link.y,  Gosu::Color.argb(0xff_ffffff),
-            0, @y,           Gosu::Color.argb(0xff_ffffff),
-            @left_x, @y,     Gosu::Color.argb(0xff_ffffff),
+            block["A"][0], block["A"][1], Gosu::Color.argb(0xff_00ff00),
+            block["B"][0], block["B"][1], Gosu::Color.argb(0xff_00ff00),
+            block["C"][0], block["C"][1], Gosu::Color.argb(0xff_00ff00),
+            block["D"][0], block["D"][1], Gosu::Color.argb(0xff_00ff00),
             5)
-        Gosu::draw_quad(
-            link.right_x, link.y,  Gosu::Color.argb(0xff_ffffff),
-            800, link.y,     Gosu::Color.argb(0xff_ffffff),
-            @right_x, @y,    Gosu::Color.argb(0xff_ffffff),
-            800, @y,         Gosu::Color.argb(0xff_ffffff),
-            5)
+    end
+
+    def limit_left(on_y)
+        b = [left_block["B"][0], left_block["B"][1]]
+        d = [left_block["D"][0], left_block["D"][1]]
+
     end
 
 end

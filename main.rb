@@ -9,4 +9,3 @@ require_relative 'timer'
 
 game_window = Game_window.new()
 game_window.show
-x_variation

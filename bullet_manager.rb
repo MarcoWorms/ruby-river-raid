@@ -61,7 +61,7 @@ class Bullet
     end
 
     def update
-        @y -= 3
+        @y -= 4
     end
 
     def draw
@@ -72,47 +72,27 @@ class Bullet
 
         # This needs refactoring but it's working exactly as intended.
 
-        bullet_points = {
-            "A" => [@x          , @y         ],
-            "B" => [@x + @width , @y         ],
-            "C" => [@x          , @y + @height],
-            "D" => [@x + @width , @y + @height]
-        }
+        self_points = [
+                      [@x, @y],
+                      [@x + @width, @y],
+                      [@x, @y + @height],
+                      [@x + @width, @y + @height]
+                      ]
 
-        a_x = bullet_points["A"][0]
-        a_y = bullet_points["A"][1]
-        b_x = bullet_points["B"][0]
-        b_y = bullet_points["B"][1]
-        c_x = bullet_points["C"][0]
-        c_y = bullet_points["C"][1]
-        d_x = bullet_points["D"][0]
-        d_y = bullet_points["D"][1]
         something_final_x = something.x + something.width
         something_final_y = something.y + something.height
 
-        if something.x <= a_x && something_final_x >= a_x
-            if something.y <= a_y && something_final_y >= a_y
-                return true
+        for points in self_points
+            point_x = points[0]
+            point_y = points[1]
+            if something.x <= point_x && point_x < something_final_x
+                if something.y <= point_y && point_y < something_final_y
+                    return true
+                end
             end
         end
 
-        if something.x <= b_x && something_final_x >= b_x
-            if something.y <= b_y && something_final_y >= b_y
-                return true
-            end
-        end
-
-        if something.x <= c_x && something_final_x >= c_x
-            if something.y <= c_y && something_final_y >= c_y
-                return true
-            end
-        end
-
-        if something.x <= d_x && something_final_x >= d_x
-            if something.y <= d_y && something_final_y >= d_y
-                return true
-            end
-        end
+        return false
 
     end
 

@@ -5,7 +5,8 @@ class Enemy_manager
     def initialize(spawn_interval)
         @enemy_image = Gosu::Image.new('enemy.png')
         @enemies = []
-        @enemy_spawn_timer = Timer.new(1)
+        @enemies.push(Enemy.new(@enemy_image, rand(700) + 50))
+        @enemy_spawn_timer = Timer.new(3)
     end
 
     def update
@@ -15,12 +16,21 @@ class Enemy_manager
 
         for enemy in @enemies
             enemy.update
+            check_out_of_bounds_and_kill(enemy)
         end
     end
 
     def draw
         for enemy in @enemies
             enemy.draw
+        end
+    end
+
+    def check_out_of_bounds_and_kill(enemy)
+        enemy_offscreen_limit = 800
+        enemy_offscreen = (enemy.y >= enemy_offscreen_limit)
+        if enemy_offscreen
+            remove_enemy(enemy)
         end
     end
 

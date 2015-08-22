@@ -1,6 +1,6 @@
 class Plane
 
-	def initialize
+	def initialize()
 		@image = Gosu::Image.new('plane.png')
 		@height = @image.height
 		@width = @image.width
@@ -8,15 +8,16 @@ class Plane
 		@y = 500
 	end
 
-	def update
-		move_with_input
+	def update(wall_manager)
+		move_with_input(wall_manager)
+        evaluate_collision(wall_manager)
 	end
 
 	def draw
 		@image.draw(@x, @y, 1)
 	end
 
-	def move_with_input
+	def move_with_input(wall_manager)
 		if Gosu::button_down?(Gosu::KbLeft)
 			@x -= 4
 		end
@@ -24,23 +25,22 @@ class Plane
 		if Gosu::button_down?(Gosu::KbRight)
 			@x += 4
 		end
-
-        player_screen_limit_right = 800 - @width
-        player_is_offscreen_right = (@x > player_screen_limit_right)
-
-        player_screen_limit_left = 0
-        player_is_offscreen_left = (@x < player_screen_limit_left)
-
-        if player_is_offscreen_right
-            @x = player_screen_limit_right
-        elsif player_is_offscreen_left
-            @x = player_screen_limit_left
-        end
 	end
 
     def center_x
         center_x = @x + @width/2
         return center_x
+    end
+
+    def evaluate_collision(wall_manager)
+        walls = wall_manager.walls
+        for wall in walls
+            if wall.top_y <= @y && @y <= wall.bottom_y
+                #if @x <= limit_left([@y])
+                #    @x = wall.limit_left([@y])
+                #end
+            end
+        end
     end
 
 end
