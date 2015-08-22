@@ -24,7 +24,6 @@ class Wall_manager
     def draw
         times = @walls.length-2
         for index in 0..times
-            puts index
             wall = @walls[index]
             wall_link = @walls[index + 1]
             wall.draw(wall_link)
