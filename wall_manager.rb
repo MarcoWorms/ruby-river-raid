@@ -6,7 +6,7 @@ class Wall_manager
         @walls = []
         @walls.push(Wall.new(800,600,0))
         @walls.push(Wall.new(800,600))
-        @wall_spawn_timer = Timer.new(2)
+        @wall_spawn_timer = Timer.new(5)
     end
 
     def update
@@ -37,7 +37,7 @@ class Wall
 
     attr_reader :y, :left_x, :right_x
 
-    def initialize(screen_size, base_size, y = -300)
+    def initialize(screen_size, base_size, y = -700)
 
         inutilized_size = screen_size - base_size
         border_radius = inutilized_size/2
