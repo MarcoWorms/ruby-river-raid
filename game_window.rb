@@ -5,18 +5,21 @@ class Game_window < Gosu::Window
 		@plane = Plane.new
 		@bullet_manager = Bullet_manager.new
         @enemy_manager = Enemy_manager.new(1)
+        @wall_manager = Wall_manager.new
 	end
 
 	def update
 		@plane.update
         @enemy_manager.update
         @bullet_manager.update(@enemy_manager)
+        @wall_manager.update
 	end
 
 	def draw
 		@plane.draw
 		@bullet_manager.draw
         @enemy_manager.draw
+        @wall_manager.draw
 	end
 
 	def button_down(keydown_id)
