@@ -1,5 +1,7 @@
 class Enemy_manager
 
+    attr_reader :enemies
+
     def initialize(spawn_interval)
         @enemy_image = Gosu::Image.new('enemy.png')
         @enemies = []
@@ -26,12 +28,15 @@ class Enemy_manager
         @enemies.push(Enemy.new(@enemy_image, spawn_x))
     end
 
+    def remove_enemy(enemy)
+        @enemies -= [enemy]
+    end
 
 end
 
-
-
 class Enemy
+
+    attr_reader :x, :y, :width, :height
 
     def initialize(image, spawn_x)
         @image = image
@@ -42,7 +47,7 @@ class Enemy
     end
 
     def update
-        @y += 3
+        @y += 2
     end
 
     def draw

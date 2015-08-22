@@ -9,8 +9,8 @@ class Game_window < Gosu::Window
 
 	def update
 		@plane.update
-		@bullet_manager.update
         @enemy_manager.update
+        @bullet_manager.update(@enemy_manager)
 	end
 
 	def draw
@@ -19,16 +19,16 @@ class Game_window < Gosu::Window
         @enemy_manager.draw
 	end
 
-	def button_down(id)
-		resolve_input(id)
+	def button_down(keydown_id)
+		resolve_input(keydown_id)
 	end
 
     def needs_cursor?
         return true
     end
 
-    def resolve_input(id)
-        case id
+    def resolve_input(keydown_id)
+        case keydown_id
         when Gosu::KbSpace
             @bullet_manager.spawn(@plane.center_x)
         end
