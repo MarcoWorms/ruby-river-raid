@@ -6,11 +6,12 @@ class Plane
 		@width = @image.width
 		@x = 800/2 - @image.width/2
 		@y = 500
+        @x_collision_offset = 10
 	end
 
 	def update(wall_manager)
 		move_with_input(wall_manager)
-        evaluate_collision(wall_manager)
+        detect_collision(wall_manager)
 	end
 
 	def draw
@@ -32,14 +33,12 @@ class Plane
         return center_x
     end
 
-    def evaluate_collision(wall_manager)
-        walls = wall_manager.walls
-        for wall in walls
-            if wall.top_y <= @y && @y <= wall.bottom_y
-                #if @x <= limit_left([@y])
-                #    @x = wall.limit_left([@y])
-                #end
-            end
+    def detect_collision(wall_manager)
+        x1 = @x + @x_collision_offset
+        x2 = @x + @width - @x_collision_offset
+        y = @y
+        if wall_manager.object_is_offtrack?(x1, x2, y)
+            exit
         end
     end
 

@@ -41,6 +41,19 @@ class Wall_manager
         @walls -= [wall]
     end
 
+    def object_is_offtrack?(x1, x2, y)
+        for wall in @walls
+            if wall.top_y <= y && y <= wall.bottom_y
+                if wall.point_is_offtrack_left?([x1, y])
+                    return true
+                elsif wall.point_is_offtrack_right?([x2, y])
+                    return true
+                end
+            end
+        end
+        return false
+    end
+
 end
 
 class Wall
@@ -95,10 +108,37 @@ class Wall
             5)
     end
 
-    def limit_left(on_y)
-        b = [left_block["B"][0], left_block["B"][1]]
-        d = [left_block["D"][0], left_block["D"][1]]
+    def point_is_offtrack_left?(point)
 
+        d = [left_block["D"][0], left_block["D"][1]]
+        b = [left_block["B"][0], left_block["B"][1]]
+
+        return false if point_is_right_of_line(point, d, b)
+        return true
+    end
+
+    def point_is_offtrack_right?(point)
+        c = [right_block["C"][0], right_block["C"][1]]
+        a = [right_block["A"][0], right_block["A"][1]]
+
+        return true if point_is_right_of_line(point, c, a)
+        return false
+    end
+
+    def point_is_right_of_line(point, line_point_1, line_point2)
+
+        borb1_1 = line_point_1[0]*line_point2[1]
+        borb1_2 = line_point_1[1]*point[0]
+        borb1_3 = line_point2[0]*point[1]
+
+        borb2_1 = line_point2[1]*point[0]
+        borb2_2 = line_point_1[0]*point[1]
+        borb2_3 = line_point_1[1]*line_point2[0]
+
+        coef = (borb1_1 + borb1_2 + borb1_3) - (borb2_1 + borb2_2 + borb2_3)
+        puts coef
+        return true if coef >= 0
+        return false
     end
 
 end

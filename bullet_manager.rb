@@ -5,10 +5,10 @@ class Bullet_manager
 		@bullet_image = Gosu::Image.new('bullet.png')
 	end
 
-	def update(enemy_manager)
+	def update(enemy_manager, wall_manager)
 		for bullet in @bullets
 			bullet.update
-            check_out_of_bounds_and_kill(bullet)
+            check_out_of_bounds_and_kill(bullet, wall_manager)
             check_colision(bullet, enemy_manager)
 		end
 	end
@@ -25,10 +25,16 @@ class Bullet_manager
         @bullets.push(Bullet.new(spawn_x, @bullet_image))
     end
 
-    def check_out_of_bounds_and_kill(bullet)
+    def check_out_of_bounds_and_kill(bullet, wall_manager)
         bullet_offscreen_limit = 0 - bullet.height
         bullet_offscreen = (bullet.y <= bullet_offscreen_limit)
         if bullet_offscreen
+            remove_bullet(bullet)
+        end
+
+        bullet_is_offtrack = wall_manager.object_is_offtrack?(bullet.x, bullet.x + bullet.width, bullet.y + bullet.height/2)
+
+        if bullet_is_offtrack
             remove_bullet(bullet)
         end
     end

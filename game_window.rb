@@ -10,10 +10,11 @@ class Game_window < Gosu::Window
 	end
 
 	def update
-		@plane.update(@wall_manager)
-        @enemy_manager.update
-        @bullet_manager.update(@enemy_manager)
         @wall_manager.update
+		@plane.update(@wall_manager)
+        @enemy_manager.update(@wall_manager)
+        @bullet_manager.update(@enemy_manager, @wall_manager)
+
 	end
 
 	def draw

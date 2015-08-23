@@ -9,14 +9,14 @@ class Enemy_manager
         @enemy_spawn_timer = Timer.new(3)
     end
 
-    def update
+    def update(wall_manager)
         if @enemy_spawn_timer.tick
             spawn_enemy(rand(700) + 50)
         end
 
         for enemy in @enemies
             enemy.update
-            check_out_of_bounds_and_kill(enemy)
+            check_out_of_bounds_and_kill(enemy, wall_manager)
         end
     end
 
@@ -26,11 +26,18 @@ class Enemy_manager
         end
     end
 
-    def check_out_of_bounds_and_kill(enemy)
-        enemy_offscreen_limit = 800
-        enemy_offscreen = (enemy.y >= enemy_offscreen_limit)
-        if enemy_offscreen
+    def check_out_of_bounds_and_kill(enemy, wall_manager)
+        enemy_vertical_offscreen_limit = 800
+        enemy_vertical_offscreen = (enemy.y >= enemy_vertical_offscreen_limit)
+        if enemy_vertical_offscreen
             remove_enemy(enemy)
+        end
+
+        enemy_is_offtrack = wall_manager.object_is_offtrack?(enemy.x, enemy.x + enemy.width, enemy.y + enemy.height/2)
+
+        if enemy_is_offtrack
+            remove_enemy(enemy)
+            spawn_enemy(rand(800))
         end
     end
 
@@ -61,7 +68,7 @@ class Enemy
     end
 
     def draw
-        @image.draw(@x, @y, 3)
+        @image.draw(@x, @y, 10)
     end
 
 end
