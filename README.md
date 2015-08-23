@@ -1,6 +1,6 @@
 # To-Do:
 
--Add Game Over screen
+- Add Game Over screen
 
 # Done:
 
