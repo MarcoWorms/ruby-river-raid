@@ -11,4 +11,4 @@ Done:
 - Collision detection for unstraight lines:
     + Collision detection plane-wall
     + Collision detection enemy-wall
-    + + Collision detection bullet-wall
+    + Collision detection bullet-wall
