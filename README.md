@@ -2,12 +2,12 @@
 
 -Add Game Over screen
 
-Done:
+# Done:
+
 - Input control (Move with arrows, shoot with space)
 - Shooting
 - Enemy spawn
-- Scrolling background
-- Random walls generator
+- Random scrolling walls generator
 - Collision detection for unstraight lines:
     + Collision detection plane-wall
     + Collision detection enemy-wall
