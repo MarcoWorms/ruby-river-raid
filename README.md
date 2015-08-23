@@ -1,6 +1,9 @@
 # To-Do:
 
 - Add Game Over screen
+- Add enemy behaviour
+- Add fuel system
+- Make enemy, bullet, player, and fuel-tank children of a parent "Object"
 
 # Done:
 
