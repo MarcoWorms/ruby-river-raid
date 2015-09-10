@@ -6,12 +6,12 @@ class Plane
 		@width = @image.width
 		@x = 800/2 - @image.width/2
 		@y = 500
-        @x_collision_offset = 10
+        	@x_collision_offset = 10
 	end
 
 	def update(wall_manager)
 		move_with_input(wall_manager)
-        detect_collision(wall_manager)
+        	detect_collision(wall_manager)
 	end
 
 	def draw
